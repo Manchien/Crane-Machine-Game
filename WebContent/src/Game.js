@@ -49,6 +49,8 @@ BasicGame.Game.prototype = {
     coin:0,
     timer:null,
     tileObjects:null,
+    stage: 1, // 1: 頭, 2: 身體, 3: 腳
+    currentParts: { head: null, body: null, foot: null },
     checkGifts: function(){
         if (this.gifts.children.length < this.max_doll) {
             this.spawnDoll();
@@ -80,6 +82,10 @@ BasicGame.Game.prototype = {
 		}
 	},
 	spawnDoll: function(){
+		var partType;
+		if(this.stage === 1) partType = 'head';
+		if(this.stage === 2) partType = 'body';
+		if(this.stage === 3) partType = 'foot';
 		var index = Math.round(Math.random()*9+3);
         var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, 'sprites',index + ".png");
         gift.body.debug = false;
@@ -88,8 +94,9 @@ BasicGame.Game.prototype = {
         gift.body.setCollisionGroup(this.giftCollisionGroup);
         gift.body.collides([ this.giftCollisionGroup, this.clawCollisionGroup,
             this.tilesCollisionGroup ]);
+        gift.partType = partType;
         //gift.body.velocity.x = this.claw_speed * 20;
-    },
+	},
 	closeClaw : function(isClose) {
 		this.claw.body.clearShapes();
 		if (isClose) {
@@ -203,9 +210,11 @@ BasicGame.Game.prototype = {
         overlapTimer.start();
 		this.coin = 50;
 		console.log("starting play state");
+
+        
 	},
     updateUI:function(){
-        this.score_text.setText("硬币:" + this.coin + "\n分数:" + this.score);
+        this.score_text.setText("coin:" + this.coin + "\nscore:" + this.score);
 	},
     actionOnClick:function(){
 
@@ -215,12 +224,31 @@ BasicGame.Game.prototype = {
 		for ( var i in this.gifts.children) {
 			var gift = this.gifts.children[i];
 			if (gift.body.y >= this.game.world.height - 70) {
+				if(gift.partType === 'head' && this.stage === 1) {
+					this.currentParts.head = gift.key;
+					this.stage = 2;
+					// 跳到第二關
+				} else if(gift.partType === 'body' && this.stage === 2) {
+					this.currentParts.body = gift.key;
+					this.stage = 3;
+					// 跳到第三關
+				} else if(gift.partType === 'foot' && this.stage === 3) {
+					this.currentParts.foot = gift.key;
+					// 組合娃娃
+					combineDollAndMintNFT();
+				}
 				this.sfx_win.play();
 				gift.destroy();
 				this.score++;
 				if(this.score % 2 == 0){
 					this.coin++;
 				}
+				let inventory = JSON.parse(localStorage.getItem('myDolls') || '[]');
+				inventory.push({
+					img: gift.key, // 或 gift.frameName
+					time: Date.now()
+				});
+				localStorage.setItem('myDolls', JSON.stringify(inventory));
 			}
 		}
 		if (this.claw_state == 1) {
