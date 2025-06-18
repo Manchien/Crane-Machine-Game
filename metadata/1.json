@@ -1,0 +1,43 @@
+{
+  "name": "Crane Game NFT #1",
+  "description": "A rare collectible from the legendary Crane Game. This NFT represents your skill and luck in the arcade!",
+  "image": "https://your-image-server.com/images/crane-nft-1.png",
+  "external_url": "https://your-game-website.com",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Game Score",
+      "value": "1500"
+    },
+    {
+      "trait_type": "Difficulty",
+      "value": "Easy"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Crane Game Series"
+    },
+    {
+      "trait_type": "Mint Date",
+      "value": "2024-01-01"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://your-image-server.com/images/crane-nft-1.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "YOUR_CREATOR_ADDRESS",
+        "share": 100
+      }
+    ]
+  }
+} 

@@ -1,0 +1,42 @@
+{
+  "name": "polygon-amoy-nft",
+  "version": "1.0.0",
+  "description": "NFT project for Polygon Amoy testnet",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network amoy",
+    "mint": "hardhat run scripts/upload-and-mint.js --network amoy",
+    "upload": "node scripts/upload-to-pinata.js",
+    "upload-and-mint": "node scripts/upload-and-mint.js",
+    "marketplace": "node scripts/marketplace.js",
+    "list": "node scripts/marketplace.js list",
+    "buy": "node scripts/marketplace.js buy",
+    "price": "node scripts/marketplace.js price",
+    "remove": "node scripts/marketplace.js remove",
+    "info": "node scripts/marketplace.js info",
+    "market": "node scripts/marketplace.js market",
+    "approve": "node scripts/marketplace.js approve",
+    "approve-all": "node scripts/marketplace.js approve-all",
+    "test": "hardhat test",
+    "node": "hardhat node"
+  },
+  "keywords": [
+    "nft",
+    "polygon",
+    "amoy",
+    "blockchain"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.3.0",
+    "@pinata/sdk": "^2.0.0",
+    "dotenv": "^16.3.1",
+    "form-data": "^4.0.0"
+  }
+}
