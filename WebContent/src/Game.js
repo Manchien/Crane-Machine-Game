@@ -83,18 +83,25 @@ BasicGame.Game.prototype = {
 	},
 	spawnDoll: function(){
 		var partType;
-		if(this.stage === 1) partType = 'head';
-		if(this.stage === 2) partType = 'body';
-		if(this.stage === 3) partType = 'foot';
+		
+		// console.log("📌 Current Stage:", typeof(this.stage));
 		var index = Math.round(Math.random()*9+3);
         var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, 'sprites',index + ".png");
-        gift.body.debug = false;
+		if(gift.frameName == "01h.png"||gift.frameName == "02h.png"||gift.frameName == "9.png"||gift.frameName == "10.png"||gift.frameName == "11.png"||gift.frameName == "12.png") partType = 'head';
+		if(gift.frameName == "2.png"||gift.frameName == "1.png"||gift.frameName == "3.png"||gift.frameName == "4.png") partType = 'body';
+		if(gift.frameName == "5.png"||gift.frameName == "6.png"||gift.frameName == "7.png"||gift.frameName == "8.png") partType = 'foot';
+		
+		// console.log("gift.partType：", gift.partType); 
+		gift.body.debug = false;
         gift.body.clearShapes();
         gift.body.loadPolygon('spritePhysics', index);
         gift.body.setCollisionGroup(this.giftCollisionGroup);
         gift.body.collides([ this.giftCollisionGroup, this.clawCollisionGroup,
             this.tilesCollisionGroup ]);
         gift.partType = partType;
+		console.log("🎁 gift.frameName：", gift.frameName); 
+		console.log("🎁 gift.partType", gift.partType);
+		// console.log("gift:???:", gift);
         //gift.body.velocity.x = this.claw_speed * 20;
 	},
 	closeClaw : function(isClose) {
@@ -141,6 +148,7 @@ BasicGame.Game.prototype = {
 		return false;
 	},
 	create : function() {
+		localStorage.removeItem('myDolls');
 		this.game.stage.backgroundColor = '#82abba';
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
 		this.game.physics.p2.gravity.y = 1500;
@@ -224,31 +232,31 @@ BasicGame.Game.prototype = {
 		for ( var i in this.gifts.children) {
 			var gift = this.gifts.children[i];
 			if (gift.body.y >= this.game.world.height - 70) {
-				if(gift.partType === 'head' && this.stage === 1) {
-					this.currentParts.head = gift.key;
-					this.stage = 2;
-					// 跳到第二關
-				} else if(gift.partType === 'body' && this.stage === 2) {
-					this.currentParts.body = gift.key;
-					this.stage = 3;
-					// 跳到第三關
-				} else if(gift.partType === 'foot' && this.stage === 3) {
-					this.currentParts.foot = gift.key;
-					// 組合娃娃
-					combineDollAndMintNFT();
-				}
 				this.sfx_win.play();
+				console.log("gift.frameName:", gift.frameName);
+				let inventory = JSON.parse(localStorage.getItem('myDolls') || '[]');
+				inventory.push({
+					img: gift.frameName,
+					type: gift.partType,
+					time: Date.now()
+				  });
+				localStorage.setItem('myDolls', JSON.stringify(inventory));
+
+				// 當抓到 3 個娃娃時自動儲存到後端
+				if (inventory.length >= 1) {
+					this.autoSaveInventory(inventory);
+					console.log(`🎉 已抓到 ${inventory.length} 個娃娃，自動儲存到後端！`);
+					
+				}
+
+				console.log("inventory:", inventory);
 				gift.destroy();
 				this.score++;
 				if(this.score % 2 == 0){
 					this.coin++;
 				}
-				let inventory = JSON.parse(localStorage.getItem('myDolls') || '[]');
-				inventory.push({
-					img: gift.key, // 或 gift.frameName
-					time: Date.now()
-				});
-				localStorage.setItem('myDolls', JSON.stringify(inventory));
+				
+
 			}
 		}
 		if (this.claw_state == 1) {
@@ -328,6 +336,26 @@ BasicGame.Game.prototype = {
 		// good stuff.
 		// Then let's go back to the main menu.
 		this.state.start('MainMenu');
-	}
+	},
+    autoSaveInventory: function(inventory) {
+        fetch('http://localhost:3001/api/save-inventory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ inventory: inventory })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('✅ Inventory 已自動儲存到後端:', data.filename);
+            } else {
+                console.error('❌ 儲存失敗:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('❌ 網路錯誤:', error);
+        });
+    },
 };
 

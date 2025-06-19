@@ -9,12 +9,12 @@ async function main() {
   // Contract parameters
   const name = "Crane Game NFT";
   const symbol = "CRANE";
-  const baseURI = "https://your-metadata-server.com/metadata/"; // Update this with your metadata server URL
+  const baseURI = ""; // Empty since we use individual tokenURIs from IPFS
   
   console.log("📝 Contract parameters:");
   console.log(`   Name: ${name}`);
   console.log(`   Symbol: ${symbol}`);
-  console.log(`   Base URI: ${baseURI}`);
+  console.log(`   Base URI: ${baseURI} (not used - individual IPFS URLs stored per token)`);
   
   // Deploy the contract
   const gameNFT = await GameNFT.deploy(name, symbol, baseURI);
