@@ -40,9 +40,31 @@ BasicGame.Preloader.prototype = {
 
 		//this.load.image('btn_play_up','assets/button/btn_play_up.png');
 
-        this.load.atlasJSONHash('sprites', 'assets/sprites/01/sprites.png', 'assets/sprites/01/sprites.json');
-        this.load.physics('spritePhysics', 'assets/sprites/01/physics.json');
+        // 載入單獨的掉落物圖片（註解掉精靈圖集）
+        // this.load.atlasJSONHash('sprites', 'assets/sprites/01/sprites.png', 'assets/sprites/01/sprites.json');
+        // this.load.physics('spritePhysics', 'assets/sprites/01/physics.json');
+        
+        // 載入單獨的圖片檔案
+        for(var i = 1; i <= 12; i++){
+            this.load.image('sprite_' + i, 'assets/sprites/01/' + i + '.png');
+        }
+        // 載入身體部位的圖片
+        this.load.image('sprite_01b', 'assets/sprites/01/01b.png');
+        this.load.image('sprite_02b', 'assets/sprites/01/02b.png');
+        this.load.image('sprite_03b', 'assets/sprites/01/03b.png');
+        // 載入頭部部位的圖片
+        this.load.image('sprite_01h', 'assets/sprites/01/01h.png');
+        this.load.image('sprite_02h', 'assets/sprites/01/02h.png');
+        this.load.image('sprite_03h', 'assets/sprites/01/03h.png');
+        // 載入腳部部位的圖片
+        this.load.image('sprite_01f', 'assets/sprites/01/01f.png');
+        this.load.image('sprite_02f', 'assets/sprites/01/02f.png');
+        this.load.image('sprite_03f', 'assets/sprites/01/03f.png');
 
+		// 如果你想使用自定義圖片，可以這樣載入：
+		// this.load.image('custom_head_1', 'assets/custom/head1.png');
+		// this.load.image('custom_body_1', 'assets/custom/body1.png');
+		// this.load.image('custom_foot_1', 'assets/custom/foot1.png');
 
 		this.load.audio('win','assets/audio/win.wav');
 		this.load.audio('lose','assets/audio/oops.wav');

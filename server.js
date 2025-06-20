@@ -103,6 +103,62 @@ app.post('/api/save-text', (req, res) => {
     }
 });
 
+// 新增：生成 combined.png 的 API
+app.post('/api/generate-combined-image', (req, res) => {
+    try {
+        const inventory = req.body.inventory;
+        if (!inventory || !Array.isArray(inventory)) {
+            return res.status(400).json({ success: false, message: '沒有提供有效的 inventory 資料' });
+        }
+
+        // 先更新 dolls_inventory.json
+        const inventoryPath = path.join(__dirname, 'scripts', 'dolls_inventory.json');
+        fs.writeFileSync(inventoryPath, JSON.stringify(inventory, null, 2));
+        console.log('✅ 已更新 dolls_inventory.json');
+
+        // 執行 combine-png.js 腳本
+        exec('node scripts/combine-png.js', (err, stdout, stderr) => {
+            if (err) {
+                console.error('❌ 生成 combined.png 時發生錯誤:', err);
+                return res.status(500).json({
+                    success: false,
+                    message: '生成 combined.png 失敗',
+                    error: err.message
+                });
+            }
+            
+            console.log('✅ combined.png 生成成功:', stdout);
+            
+            // 檢查檔案是否真的生成了
+            const combinedPath = path.join(__dirname, 'WebContent', 'assets', 'combined.png');
+            if (fs.existsSync(combinedPath)) {
+                const stats = fs.statSync(combinedPath);
+                res.json({
+                    success: true,
+                    message: 'combined.png 生成成功',
+                    filepath: combinedPath,
+                    filesize: stats.size,
+                    output: stdout
+                });
+            } else {
+                res.status(500).json({
+                    success: false,
+                    message: 'combined.png 檔案未生成',
+                    output: stdout
+                });
+            }
+        });
+
+    } catch (error) {
+        console.error('❌ 生成 combined.png 時發生錯誤:', error);
+        res.status(500).json({
+            success: false,
+            message: '生成失敗',
+            error: error.message
+        });
+    }
+});
+
 // 取得最新 inventory 的 API
 app.get('/api/get-latest-inventory', (req, res) => {
     try {
@@ -148,6 +204,7 @@ app.listen(PORT, () => {
     console.log(`   POST /api/save-inventory - 儲存 inventory`);
     console.log(`   GET  /api/get-latest-inventory - 取得最新 inventory`);
     console.log(`   POST /api/save-text - 儲存文字`);
+    console.log(`   POST /api/generate-combined-image - 生成 combined.png`);
 });
 
 module.exports = app; 

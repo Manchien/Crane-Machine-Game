@@ -155,11 +155,31 @@ BasicGame.Game.prototype = {
 			else partType = 'foot';
 		}
 		
-        var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, 'sprites',index + ".png");
+		// 根據部位類型選擇對應的圖片
+		var spriteKey;
+		if (partType === 'head') {
+			// 頭部：01h, 02h, 03h
+			var headIndex = Math.floor(Math.random() * 3) + 1;
+			spriteKey = 'sprite_0' + headIndex + 'h';
+		} else if (partType === 'body') {
+			// 身體：01b, 02b, 03b
+			var bodyIndex = Math.floor(Math.random() * 3) + 1;
+			spriteKey = 'sprite_0' + bodyIndex + 'b';
+		} else if (partType === 'foot') {
+			// 腳部：01f, 02f, 03f
+			var footIndex = Math.floor(Math.random() * 3) + 1;
+			spriteKey = 'sprite_0' + footIndex + 'f';
+		}
 		
+		console.log("🎯 選擇的 spriteKey:", spriteKey);
+		console.log("🎯 部位類型:", partType);
+		
+        var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, spriteKey);
+		gift.scale.setTo(0.15); 
 		gift.body.debug = false;
         gift.body.clearShapes();
-        gift.body.loadPolygon('spritePhysics', index);
+        // 使用簡單的矩形碰撞體，因為不再有精靈圖集的物理資料
+        gift.body.setRectangle(gift.width * 0.8, gift.height * 0.8);
         gift.body.setCollisionGroup(this.giftCollisionGroup);
         gift.body.collides([ this.giftCollisionGroup, this.clawCollisionGroup,
             this.tilesCollisionGroup ]);
@@ -290,6 +310,18 @@ BasicGame.Game.prototype = {
         overlapTimer.start();
 		this.coin = 50;
 		console.log("starting play state");
+		
+		// 檢查圖片是否正確載入
+		console.log("🔍 檢查圖片載入狀態:");
+		console.log("sprite_01h:", this.game.cache.checkImageKey('sprite_01h'));
+		console.log("sprite_01b:", this.game.cache.checkImageKey('sprite_01b'));
+		console.log("sprite_01f:", this.game.cache.checkImageKey('sprite_01f'));
+		console.log("sprite_02h:", this.game.cache.checkImageKey('sprite_02h'));
+		console.log("sprite_02b:", this.game.cache.checkImageKey('sprite_02b'));
+		console.log("sprite_02f:", this.game.cache.checkImageKey('sprite_02f'));
+		console.log("sprite_03h:", this.game.cache.checkImageKey('sprite_03h'));
+		console.log("sprite_03b:", this.game.cache.checkImageKey('sprite_03b'));
+		console.log("sprite_03f:", this.game.cache.checkImageKey('sprite_03f'));
 
         
 	},
@@ -437,10 +469,32 @@ BasicGame.Game.prototype = {
         .then(data => {
             if (data.success) {
                 console.log('✅ Inventory 已自動儲存到後端:', data.filename);
-                // 鑄造完成後跳轉到成功畫面
-                setTimeout(() => {
-                    window.location.href = 'end-screen.html?status=success';
-                }, 10000); // 10秒後顯示成功畫面
+                
+                // 在跳轉到成功畫面之前，先生成新的 combined.png
+                fetch('http://localhost:3001/api/generate-combined-image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ inventory: inventory })
+                })
+                .then(response => response.json())
+                .then(imageData => {
+                    if (imageData.success) {
+                        console.log('✅ 新的 combined.png 已生成');
+                    } else {
+                        console.error('❌ 生成 combined.png 失敗:', imageData.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ 生成 combined.png 時發生錯誤:', error);
+                })
+                .finally(() => {
+                    // 鑄造完成後跳轉到成功畫面
+                    setTimeout(() => {
+                        window.location.href = 'end-screen.html?status=success';
+                    }, 10000); // 10秒後顯示成功畫面
+                });
             } else {
                 console.error('❌ 儲存失敗:', data.message);
                 // 如果失敗，也跳轉到成功畫面（假設成功）

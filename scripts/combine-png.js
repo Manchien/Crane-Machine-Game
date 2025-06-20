@@ -7,7 +7,7 @@ const inventoryPath = path.join(__dirname, 'dolls_inventory.json');
 const inventory = JSON.parse(fs.readFileSync(inventoryPath, 'utf8'));
 
 // 來源資料夾
-const folder = path.join(__dirname, '../WebContent/assets/sprites');
+const folder = path.join(__dirname, '../WebContent/assets/sprites/01');
 // 目標輸出檔案
 const output = path.join(__dirname, '../assets/combined.png');
 const webContentOutput = path.join(__dirname, '../WebContent/assets/combined.png');
@@ -21,7 +21,11 @@ const imageFiles = inventory
     const bIndex = typeOrder.indexOf(b.type);
     return aIndex - bIndex;
   })
-  .map(item => item.img);
+  .map(item => {
+    // 移除版本號參數，只保留檔案名
+    const fileName = item.img.split('?')[0].split('/').pop();
+    return fileName;
+  });
 
 if (imageFiles.length === 0) {
   console.error('在 dolls_inventory.json 中找不到 PNG 檔案');

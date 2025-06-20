@@ -27,6 +27,33 @@ class EndScreen {
     showSuccessScreen() {
         this.loadingScreen.style.display = 'none';
         this.successScreen.style.display = 'block';
+        
+        // 強制重新載入圖片以避免快取問題
+        const nftImage = document.getElementById('nftImage');
+        if (nftImage) {
+            // 添加時間戳來強制重新載入
+            const timestamp = new Date().getTime();
+            nftImage.src = `assets/combined.png?t=${timestamp}`;
+            
+            // 如果圖片載入失敗，顯示預設圖片或錯誤訊息
+            nftImage.onerror = function() {
+                console.error('無法載入 NFT 圖片');
+                this.style.display = 'none';
+                // 可以顯示一個預設的佔位符
+                const placeholder = document.createElement('div');
+                placeholder.style.width = '200px';
+                placeholder.style.height = '200px';
+                placeholder.style.backgroundColor = '#f0f0f0';
+                placeholder.style.borderRadius = '15px';
+                placeholder.style.margin = '20px auto';
+                placeholder.style.display = 'flex';
+                placeholder.style.alignItems = 'center';
+                placeholder.style.justifyContent = 'center';
+                placeholder.innerHTML = '🎉 NFT 已鑄造完成！';
+                this.parentNode.insertBefore(placeholder, this);
+            };
+        }
+        
         this.createConfetti();
     }
 
