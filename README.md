@@ -26,11 +26,13 @@ This project allows you to deploy and mint NFTs for your crane game on the Polyg
    Edit `.env` and add your credentials:
    ```
    PRIVATE_KEY=your_private_key_here
+   MUMBAI_RPC_URL = your_MUMBAI_RPC_URL
    AMOY_RPC_URL=https://rpc-amoy.polygon.technology
    PINATA_API_KEY=your_pinata_api_key_here
    PINATA_SECRET_API_KEY=your_pinata_secret_api_key_here
    CONTRACT_ADDRESS=your_deployed_contract_address
    RECIPIENT_ADDRESS=your_recipient_address
+   USE_IPFS=true
    ```
 
 3. **Get Pinata API Keys:**
@@ -44,9 +46,7 @@ This project allows you to deploy and mint NFTs for your crane game on the Polyg
    - Enter your wallet address
    - Receive test MATIC tokens
 
-5. **Prepare your images:**
-   - Place your NFT images in the `assets/` folder
-   - Default image name: `nfttest.png`
+
 
 ### 🏗️ Deploy Contract
 
