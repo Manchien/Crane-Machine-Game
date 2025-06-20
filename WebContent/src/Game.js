@@ -175,7 +175,7 @@ BasicGame.Game.prototype = {
 		console.log("🎯 部位類型:", partType);
 		
         var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, spriteKey);
-		gift.scale.setTo(0.15); 
+		gift.scale.setTo(0.17); // 將娃娃放大到原來的2倍
 		gift.body.debug = false;
         gift.body.clearShapes();
         // 使用簡單的矩形碰撞體，因為不再有精靈圖集的物理資料
