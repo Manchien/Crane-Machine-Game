@@ -285,7 +285,24 @@ function displayAvailableLocalImages() {
 async function main() {
     // Configuration
     const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
-    const RECIPIENT_ADDRESS = process.env.RECIPIENT_ADDRESS;
+    let RECIPIENT_ADDRESS = process.env.RECIPIENT_ADDRESS; // Use let to allow modification
+
+    // --- New logic to read recipient address from file ---
+    const userInputPath = path.join(__dirname, '..', 'assets', 'userInput.txt');
+    try {
+        if (fs.existsSync(userInputPath)) {
+            const fileContent = fs.readFileSync(userInputPath, 'utf8').trim();
+            if (fileContent && ethers.isAddress(fileContent)) {
+                console.log(`📝 Found valid address in userInput.txt, overriding .env file.`);
+                RECIPIENT_ADDRESS = fileContent;
+            } else if (fileContent) {
+                console.warn(`⚠️ Address in userInput.txt is invalid: "${fileContent}". Falling back to .env file.`);
+            }
+        }
+    } catch (error) {
+        console.error(`🚨 Error reading userInput.txt: ${error.message}. Falling back to .env file.`);
+    }
+    // --- End of new logic ---
     
     // Validate configuration
     if (!CONTRACT_ADDRESS || !ethers.isAddress(CONTRACT_ADDRESS)) {
@@ -294,7 +311,7 @@ async function main() {
     }
     
     if (!RECIPIENT_ADDRESS || !ethers.isAddress(RECIPIENT_ADDRESS)) {
-        console.error("❌ Invalid or missing RECIPIENT_ADDRESS in .env file");
+        console.error("❌ Invalid or missing RECIPIENT_ADDRESS in .env file or userInput.txt");
         process.exit(1);
     }
     
@@ -322,6 +339,7 @@ async function main() {
         // Use the latest image (last in the array) instead of hardcoded index 2
         const latestImagePath = localImages[localImages.length - 1];
         console.log(`🎯 Using image: ${latestImagePath}`);
+        
         await mintNFT(RECIPIENT_ADDRESS, CONTRACT_ADDRESS, latestImagePath, {
             "Rarity": "Common",
             "Power": 10
@@ -345,25 +363,4 @@ async function main() {
     console.log(`🔗 View your NFTs on Amoy Explorer: https://www.oklink.com/amoy/address/${RECIPIENT_ADDRESS}`);
 }
 
-// Run the script if called directly
-if (require.main === module) {
-    main()
-        .then(() => {
-            process.exit(0);
-        })
-        .catch((error) => {
-            console.error("❌ Process failed:", error);
-            process.exit(1);
-        });
-}
-
-// Export functions for use in other scripts
-module.exports = {
-    mintNFT,
-    batchMintNFTs,
-    generateMetadata,
-    uploadMetadataToIPFS,
-    uploadImageToIPFS,
-    uploadToPinata,
-    displayAvailableLocalImages
-}; 
+main();

@@ -67,10 +67,10 @@ app.post('/api/save-text', (req, res) => {
         }
 
         const filename = 'userInput.txt';
-        const filepath = path.join(__dirname, filename);
+        const filepath = path.join(__dirname, 'assets', filename);
 
         fs.writeFileSync(filepath, text, 'utf8');
-        console.log(`✅ 文字已儲存到: ${filename}`);
+        console.log(`✅ 文字已儲存到: ${filepath}`);
 
         res.json({
             success: true,
