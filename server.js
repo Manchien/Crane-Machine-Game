@@ -58,6 +58,37 @@ app.post('/api/save-inventory', (req, res) => {
     }
 });
 
+// 新增：儲存文字到 txt 檔案的 API
+app.post('/api/save-text', (req, res) => {
+    try {
+        const { text } = req.body;
+        if (typeof text === 'undefined') {
+            return res.status(400).json({ success: false, message: '沒有提供文字內容' });
+        }
+
+        const filename = 'userInput.txt';
+        const filepath = path.join(__dirname, filename);
+
+        fs.writeFileSync(filepath, text, 'utf8');
+        console.log(`✅ 文字已儲存到: ${filename}`);
+
+        res.json({
+            success: true,
+            message: '文字儲存成功',
+            filename,
+            filepath
+        });
+
+    } catch (error) {
+        console.error('❌ 儲存文字時發生錯誤:', error);
+        res.status(500).json({
+            success: false,
+            message: '儲存失敗',
+            error: error.message
+        });
+    }
+});
+
 // 取得最新 inventory 的 API
 app.get('/api/get-latest-inventory', (req, res) => {
     try {
@@ -102,6 +133,7 @@ app.listen(PORT, () => {
     console.log(`🔗 API 端點:`);
     console.log(`   POST /api/save-inventory - 儲存 inventory`);
     console.log(`   GET  /api/get-latest-inventory - 取得最新 inventory`);
+    console.log(`   POST /api/save-text - 儲存文字`);
 });
 
 module.exports = app; 

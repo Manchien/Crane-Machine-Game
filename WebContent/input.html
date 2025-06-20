@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字輸入</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        input[type="text"] { width: 300px; padding: 0.5rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 0.5rem 1.5rem; border: none; background-color: #007bff; color: white; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        p#status { margin-top: 1rem; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Text</h1>
+        <input type="text" id="textInput" placeholder="Enter here...">
+        <br>
+        <button onclick="submitText()">Submit</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        async function submitText() {
+            const input = document.getElementById('textInput');
+            const status = document.getElementById('status');
+            const text = input.value;
+
+            if (!text) {
+                status.textContent = 'Input your wallet address';
+                status.style.color = 'red';
+                return;
+            }
+
+            status.textContent = 'Saving...';
+            status.style.color = 'blue';
+
+            try {
+                const response = await fetch('http://localhost:3001/api/save-text', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: text })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    status.textContent = `Success! File saved as ${result.filename}`;
+                    status.style.color = 'green';
+                    input.value = ''; // Clear input
+                } else {
+                    status.textContent = `Save failed: ${result.message}`;
+                    status.style.color = 'red';
+                }
+            } catch (error) {
+                status.textContent = 'Network error. Please check if the backend server is running.';
+                status.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html> 
