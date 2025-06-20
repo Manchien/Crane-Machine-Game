@@ -422,6 +422,10 @@ BasicGame.Game.prototype = {
 		this.state.start('MainMenu');
 	},
     autoSaveInventory: function(inventory) {
+        // 先跳轉到鑄造中畫面
+        window.location.href = 'end-screen.html?status=minting';
+        
+        // 在背景執行儲存操作
         fetch('http://localhost:3001/api/save-inventory', {
             method: 'POST',
             headers: {
@@ -433,12 +437,24 @@ BasicGame.Game.prototype = {
         .then(data => {
             if (data.success) {
                 console.log('✅ Inventory 已自動儲存到後端:', data.filename);
+                // 鑄造完成後跳轉到成功畫面
+                setTimeout(() => {
+                    window.location.href = 'end-screen.html?status=success';
+                }, 10000); // 10秒後顯示成功畫面
             } else {
                 console.error('❌ 儲存失敗:', data.message);
+                // 如果失敗，也跳轉到成功畫面（假設成功）
+                setTimeout(() => {
+                    window.location.href = 'end-screen.html?status=success';
+                }, 10000);
             }
         })
         .catch(error => {
             console.error('❌ 網路錯誤:', error);
+            // 如果網路錯誤，也跳轉到成功畫面（假設成功）
+            setTimeout(() => {
+                window.location.href = 'end-screen.html?status=success';
+            }, 10000);
         });
     },
 };

@@ -10,6 +10,7 @@ const inventory = JSON.parse(fs.readFileSync(inventoryPath, 'utf8'));
 const folder = path.join(__dirname, '../WebContent/assets/sprites');
 // 目標輸出檔案
 const output = path.join(__dirname, '../assets/combined.png');
+const webContentOutput = path.join(__dirname, '../WebContent/assets/combined.png');
 
 // 從 inventory 中取得所有 img 檔名，並按照 type 排序
 const typeOrder = ['head', 'body', 'foot'];
@@ -40,39 +41,56 @@ Promise.all(files.map(f => sharp(f).toBuffer()))
       .then(metas => ({ buffers, metas }));
   })
   .then(({ buffers, metas }) => {
-    // 以最寬的圖片寬度為主
-    const width = Math.max(...metas.map(m => m.width));
+    // 計算所有圖片的總高度
     const totalHeight = metas.reduce((sum, m) => sum + m.height, 0);
+    // 以最寬的圖片寬度為主
+    const maxWidth = Math.max(...metas.map(m => m.width));
+    
+    // 使用較大的值作為正方形的邊長
+    const squareSize = Math.max(maxWidth, totalHeight);
+    
+    // 計算垂直排列的起始位置（居中）
+    const startY = Math.floor((squareSize - totalHeight) / 2);
 
-    console.log(`組合 ${metas.length} 張圖片，總寬度：${width}，總高度：${totalHeight}`);
+    console.log(`組合 ${metas.length} 張圖片，正方形尺寸：${squareSize}x${squareSize}`);
+    console.log(`圖片總高度：${totalHeight}，最大寬度：${maxWidth}`);
 
-    // 建立空白畫布
+    // 建立空白畫布（正方形）
     const composite = [];
-    let currentTop = 0;
+    let currentTop = startY;
     
     buffers.forEach((buffer, index) => {
+      // 計算水平居中位置
+      const imageWidth = metas[index].width;
+      const startX = Math.floor((squareSize - imageWidth) / 2);
+      
       composite.push({
         input: buffer,
         top: currentTop,
-        left: 0
+        left: startX
       });
       currentTop += metas[index].height;
     });
 
     return sharp({
       create: {
-        width: width,
-        height: totalHeight,
+        width: squareSize,
+        height: squareSize,
         channels: 4,
         background: { r: 0, g: 0, b: 0, alpha: 0 }
       }
     })
       .composite(composite)
       .png()
-      .toFile(output);
+      .toFile(output)
+      .then(() => {
+        // 同時複製到 WebContent/assets 資料夾
+        return sharp(output).png().toFile(webContentOutput);
+      });
   })
   .then(() => {
     console.log('合成完成，輸出檔案：', output);
+    console.log('同時複製到：', webContentOutput);
   })
   .catch(err => {
     console.error('合成失敗：', err);

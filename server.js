@@ -28,23 +28,37 @@ app.post('/api/save-inventory', (req, res) => {
         fs.writeFileSync(filepath, JSON.stringify(inventory, null, 2));
         console.log(`✅ Inventory 已儲存到: ${filename}`);
 
-        // 執行 mint 指令後再回應
-        exec('npm run mint', (err, stdout, stderr) => {
+        // 先執行 combine 圖片組合
+        exec('node scripts/combine-png.js', (err, stdout, stderr) => {
             if (err) {
-                console.error('❌ mint 錯誤：', err);
+                console.error('❌ combine 錯誤：', err);
                 return res.status(500).json({
                     success: false,
-                    message: 'mint 執行失敗',
+                    message: 'combine 執行失敗',
                     error: err.message
                 });
             }
-            console.log('✅ mint 成功：', stdout);
-            res.json({
-                success: true,
-                message: 'Inventory 儲存並自動 mint 完成',
-                filename,
-                filepath,
-                mintOutput: stdout
+            console.log('✅ combine 成功：', stdout);
+            
+            // combine 成功後再執行 mint
+            exec('npm run mint', (mintErr, mintStdout, mintStderr) => {
+                if (mintErr) {
+                    console.error('❌ mint 錯誤：', mintErr);
+                    return res.status(500).json({
+                        success: false,
+                        message: 'mint 執行失敗',
+                        error: mintErr.message
+                    });
+                }
+                console.log('✅ mint 成功：', mintStdout);
+                res.json({
+                    success: true,
+                    message: 'Inventory 儲存、圖片組合並自動 mint 完成',
+                    filename,
+                    filepath,
+                    combineOutput: stdout,
+                    mintOutput: mintStdout
+                });
             });
         });
 

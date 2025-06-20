@@ -248,38 +248,17 @@ async function batchMintNFTs(recipientAddress, contractAddress, imagePathsOrUrls
 function displayAvailableLocalImages() {
     console.log("\n📸 Available Local Images:");
     
-    // Read dolls_inventory.json to get the latest filename
-    const inventoryPath = path.join(__dirname, 'dolls_inventory.json');
-    let latestFilename = '01'; // default fallback
+    // 載入組合後的圖片檔案
+    const combinedImagePath = path.join(__dirname, '..', 'assets', 'combined.png');
     
-    if (fs.existsSync(inventoryPath)) {
-        try {
-            const inventoryData = JSON.parse(fs.readFileSync(inventoryPath, 'utf8'));
-            if (inventoryData.length > 0) {
-                // Find the latest entry based on time field
-                const latestEntry = inventoryData.reduce((latest, current) => {
-                    return (current.time > latest.time) ? current : latest;
-                });
-                latestFilename = latestEntry.img.replace('.png', ''); // Remove .png extension
-                console.log(`📋 Using latest filename from inventory: ${latestEntry.img}`);
-            }
-        } catch (error) {
-            console.error('Error reading dolls_inventory.json:', error);
-        }
+    if (fs.existsSync(combinedImagePath)) {
+        console.log(`🎨 找到組合圖片: ${combinedImagePath}`);
+        return [combinedImagePath];
+    } else {
+        console.log(`❌ 找不到組合圖片: ${combinedImagePath}`);
+        console.log('請先執行圖片組合腳本');
+        return [];
     }
-    
-    // Use the sprites root directory since the inventory images are there
-    const assetsDir = path.join(__dirname, '..', 'WebContent', 'assets', 'sprites',"01");
-    
-    // Load inventory and map to actual file paths
-    const inventory = require('./dolls_inventory.json');
-    
-    inventory.forEach(item => {
-        console.log('🎁 圖片檔名:', item.img);
-    });
-    
-    // Map inventory items to their actual file paths
-    return inventory.map(item => path.join(assetsDir, item.img));
 }
 
 async function main() {
