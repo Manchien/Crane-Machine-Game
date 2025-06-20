@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFT 鑄造完成</title>
+    <title>NFT Minting Complete</title>
     <style>
         body {
             margin: 0;
@@ -151,23 +151,23 @@
         <!-- 鑄造中畫面 -->
         <div class="loading-screen" id="loadingScreen">
             <div class="spinner"></div>
-            <h2 class="title">正在鑄造 NFT...</h2>
-            <p class="subtitle">請稍候，您的獨特角色正在區塊鏈上誕生</p>
+            <h2 class="title">Minting NFT...</h2>
+            <p class="subtitle">Please wait, your unique character is being born on the blockchain</p>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <p id="progressText">準備中...</p>
+            <p id="progressText">Preparing...</p>
         </div>
 
         <!-- 成功畫面 -->
         <div class="success-screen" id="successScreen">
-            <h1 class="title">🎉 恭喜！</h1>
-            <h2 class="subtitle">您的 NFT 鑄造成功！</h2>
-            <img src="assets/combined.png" alt="您的 NFT" class="nft-image" id="nftImage">
-            <p class="subtitle">您的獨特角色已經永久保存在區塊鏈上</p>
+            <h1 class="title">🎉 Congratulations!</h1>
+            <h2 class="subtitle">Your NFT has been minted successfully!</h2>
+            <img src="assets/combined.png" alt="Your NFT" class="nft-image" id="nftImage">
+            <p class="subtitle">Your unique character has been permanently saved on the blockchain</p>
             <div>
-                <button class="btn" onclick="restartGame()">重新開始遊戲</button>
-                <!-- <button class="btn btn-secondary" onclick="viewNFT()">查看 NFT</button> -->
+                <button class="btn" onclick="restartGame()">Restart Game</button>
+                <!-- <button class="btn btn-secondary" onclick="viewNFT()">View NFT</button> -->
             </div>
         </div>
     </div>
