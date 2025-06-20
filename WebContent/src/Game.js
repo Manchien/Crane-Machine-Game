@@ -234,7 +234,10 @@ BasicGame.Game.prototype = {
 	},
 	create : function() {
 		localStorage.removeItem('myDolls');
-		this.game.stage.backgroundColor = '#666666';
+		// 使用background2.png作為背景圖片
+		this.background = this.add.sprite(0, 0, 'background2');
+		this.background.width = this.game.width;
+		this.background.height = this.game.height+200;
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
 		this.game.physics.p2.gravity.y = 1500;
 		this.game.physics.p2.setImpactEvents(true);
