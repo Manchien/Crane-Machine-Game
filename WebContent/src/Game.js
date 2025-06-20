@@ -51,6 +51,9 @@ BasicGame.Game.prototype = {
     tileObjects:null,
     stage: 1, // 1: 頭, 2: 身體, 3: 腳
     currentParts: { head: null, body: null, foot: null },
+    // 新增鍵盤控制變數
+    cursors: null,
+    spaceKey: null,
     checkGifts: function(){
         if (this.gifts.children.length < this.max_doll) {
             this.spawnDoll();
@@ -66,19 +69,26 @@ BasicGame.Game.prototype = {
 			}
 		}
 	},
-	click : function() {
-		if (this.claw_state === 0 && this.gifts.children.length == this.max_doll) {
-			if(this.coin > 0){
-				this.coin--;
-                this.claw_state = 1;
-                this.claw_sfx(0);
+	// 修改點擊函數為鍵盤控制
+	keyboardControl : function() {
+		// 左右方向鍵控制夾子移動
+		if (this.claw_state === 0) {
+			// 在待機狀態下可以用左右鍵移動夾子
+			if (this.cursors.left.isDown && this.claw.body.x > this.zero_point[0]) {
+				this.claw.body.x -= this.claw_speed;
+				this.claw_rope.x -= this.claw_speed;
 			}
-		}
-	},
-	release : function() {
-		if (this.claw_state === 1) {
-			this.claw_state = 2;
-			this.claw_sfx(1);
+			if (this.cursors.right.isDown && this.claw.body.x < this.zero_point[0] + 470) {
+				this.claw.body.x += this.claw_speed;
+				this.claw_rope.x += this.claw_speed;
+			}
+			
+			// 空白鍵開始抓取動作
+			if (this.spaceKey.isDown && this.coin > 0) {
+				this.coin--;
+				this.claw_state = 2; // 直接進入向下抓取狀態
+				this.claw_sfx(1);
+			}
 		}
 	},
 	spawnDoll: function(){
@@ -204,9 +214,15 @@ BasicGame.Game.prototype = {
 		this.gifts = this.game.add.group();
 		this.gifts.enableBody = true;
 		this.gifts.physicsBodyType = Phaser.Physics.P2JS;
-		// attach pointer events
-		this.game.input.onDown.add(this.click, this);
-		this.game.input.onUp.add(this.release, this);
+		
+		// 初始化鍵盤控制
+		this.cursors = this.game.input.keyboard.createCursorKeys();
+		this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		
+		// 移除原本的滑鼠事件監聽器
+		// this.game.input.onDown.add(this.click, this);
+		// this.game.input.onUp.add(this.release, this);
+		
 		this.game.physics.p2.updateBoundsCollisionGroup();
 
         this.timer = this.game.time.create(false);
@@ -228,6 +244,9 @@ BasicGame.Game.prototype = {
 
 	},
 	update : function() {
+		// 調用鍵盤控制函數
+		this.keyboardControl();
+		
 		this.claw.body.setZeroVelocity();
 		for ( var i in this.gifts.children) {
 			var gift = this.gifts.children[i];
@@ -259,15 +278,7 @@ BasicGame.Game.prototype = {
 
 			}
 		}
-		if (this.claw_state == 1) {
-			if(this.claw.body.x + this.claw.width / 2 >= this.game.world.width){
-                this.claw_state = 4;
-                this.coin++;
-			}else{
-                this.claw.body.x += this.claw_speed;
-                this.claw_rope.x += this.claw_speed;
-			}
-		} else if (this.claw_state == 2) {
+		if (this.claw_state == 2) {
 			this.claw.body.y += this.claw_speed;
             this.claw_rope.height += this.claw_speed;
 			if (this.claw.body.y >= this.claw_length) {
