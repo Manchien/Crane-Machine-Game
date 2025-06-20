@@ -78,7 +78,7 @@ BasicGame.Game.prototype = {
 				this.claw.body.x -= this.claw_speed;
 				this.claw_rope.x -= this.claw_speed;
 			}
-			if (this.cursors.right.isDown && this.claw.body.x < this.zero_point[0] + 470) {
+			if (this.cursors.right.isDown && this.claw.body.x < this.zero_point[1] + 520) {
 				this.claw.body.x += this.claw_speed;
 				this.claw_rope.x += this.claw_speed;
 			}
