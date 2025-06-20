@@ -22,7 +22,7 @@ BasicGame.Boot.prototype = {
         this.stage.disableVisibilityChange = true;
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         
-        this.scale.setMinMax(320, 480, 700, 840);
+        this.scale.setMinMax(320, 480, 660, 792);
         this.scale.refresh();
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;

@@ -1,8 +1,9 @@
-
 BasicGame.Preloader = function (game) {
 
 	this.background = null;
 	this.preloadBar = null;
+	this.loadingText = null;
+	this.progressText = null;
 
 	this.ready = false;
 
@@ -15,12 +16,6 @@ BasicGame.Preloader.prototype = {
 		//	These are the assets we loaded in Boot.js
 		//	A nice sparkly background and a loading progress bar
 		this.background = this.add.sprite(0, 0, 'preloaderBackground');
-		this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');
-
-		//	This sets the preloadBar sprite as a loader sprite.
-		//	What that does is automatically crop the sprite from 0 to full-width
-		//	as the files below are loaded in.
-		this.load.setPreloadSprite(this.preloadBar);
 
 		//	Here we load the rest of the assets our game needs.
 		//	As this is just a Project Template I've not provided these assets, the lines below won't work as the files themselves will 404, they are just an example of use.
@@ -56,6 +51,9 @@ BasicGame.Preloader.prototype = {
 		this.load.audio('sfx_claw_0','assets/audio/claw_0.m4a');
 		this.load.audio('sfx_claw_1','assets/audio/claw_1.m4a');
 		this.load.audio('sfx_claw_2','assets/audio/claw_2.m4a');
+		
+		// 加載開始按鈕圖片
+		this.load.image('btn_play_up','assets/button/btn_play_up.png');
 	},
 
 	create: function () {
@@ -79,7 +77,7 @@ BasicGame.Preloader.prototype = {
 		if (this.cache.isSoundDecoded('bgm') && this.ready == false)
 		{
 			this.ready = true;
-			this.state.start('Game');
+			this.state.start('MainMenu');
 		}
 
 	}

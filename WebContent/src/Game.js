@@ -159,7 +159,7 @@ BasicGame.Game.prototype = {
 	},
 	create : function() {
 		localStorage.removeItem('myDolls');
-		this.game.stage.backgroundColor = '#82abba';
+		this.game.stage.backgroundColor = '#666666';
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
 		this.game.physics.p2.gravity.y = 1500;
 		this.game.physics.p2.setImpactEvents(true);
