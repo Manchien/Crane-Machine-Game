@@ -95,14 +95,68 @@ BasicGame.Game.prototype = {
 	spawnDoll: function(){
 		var partType;
 		
-		// console.log("📌 Current Stage:", typeof(this.stage));
-		var index = Math.round(Math.random()*9+3);
-        var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, 'sprites',index + ".png");
-		if(gift.frameName == "01h.png"||gift.frameName == "02h.png"||gift.frameName == "9.png"||gift.frameName == "10.png"||gift.frameName == "11.png"||gift.frameName == "12.png") partType = 'head';
-		if(gift.frameName == "2.png"||gift.frameName == "1.png"||gift.frameName == "3.png"||gift.frameName == "4.png") partType = 'body';
-		if(gift.frameName == "5.png"||gift.frameName == "6.png"||gift.frameName == "7.png"||gift.frameName == "8.png") partType = 'foot';
+		// 初始化計數器和已掉落的部位追蹤
+		if (!this.dollSpawnCount) {
+			this.dollSpawnCount = 0;
+			this.droppedParts = { head: false, body: false, foot: false };
+		}
+		this.dollSpawnCount++;
 		
-		// console.log("gift.partType：", gift.partType); 
+		// 如果已經掉落 6 個娃娃，就不再掉落
+		// if (this.dollSpawnCount > 6) {
+		// 	return;
+		// }
+		
+		let index;
+		// 前 3 個確保各部位都有
+		if (this.dollSpawnCount <= 3) {
+			if (this.dollSpawnCount === 1 && !this.droppedParts.head) {
+				// 第 1 個：確保有 head
+				index = Math.floor(Math.random() * 3) + 1; // 1, 2, 3 -> 01h, 02h, 03h
+				partType = 'head';
+				this.droppedParts.head = true;
+			} else if (this.dollSpawnCount === 2 && !this.droppedParts.body) {
+				// 第 2 個：確保有 body
+				index = Math.floor(Math.random() * 3) + 4; // 4, 5, 6 -> 01b, 02b, 03b
+				partType = 'body';
+				this.droppedParts.body = true;
+			} else if (this.dollSpawnCount === 3 && !this.droppedParts.foot) {
+				// 第 3 個：確保有 foot
+				index = Math.floor(Math.random() * 3) + 7; // 7, 8, 9 -> 01f, 02f, 03f
+				partType = 'foot';
+				this.droppedParts.foot = true;
+			} else {
+				// 如果該部位已經掉落，隨機選擇其他部位
+				const availableParts = [];
+				if (!this.droppedParts.head) availableParts.push('head');
+				if (!this.droppedParts.body) availableParts.push('body');
+				if (!this.droppedParts.foot) availableParts.push('foot');
+				
+				const randomPart = availableParts[Math.floor(Math.random() * availableParts.length)];
+				if (randomPart === 'head') {
+					index = Math.floor(Math.random() * 3) + 1;
+					partType = 'head';
+					this.droppedParts.head = true;
+				} else if (randomPart === 'body') {
+					index = Math.floor(Math.random() * 3) + 4;
+					partType = 'body';
+					this.droppedParts.body = true;
+				} else if (randomPart === 'foot') {
+					index = Math.floor(Math.random() * 3) + 7;
+					partType = 'foot';
+					this.droppedParts.foot = true;
+				}
+			}
+		} else {
+			// 第 4-6 個：完全隨機掉落
+			index = Math.round(Math.random() * 9 + 1); // 1-9
+			if (index <= 3) partType = 'head';
+			else if (index <= 6) partType = 'body';
+			else partType = 'foot';
+		}
+		
+        var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, 'sprites',index + ".png");
+		
 		gift.body.debug = false;
         gift.body.clearShapes();
         gift.body.loadPolygon('spritePhysics', index);
@@ -112,8 +166,8 @@ BasicGame.Game.prototype = {
         gift.partType = partType;
 		console.log("🎁 gift.frameName：", gift.frameName); 
 		console.log("🎁 gift.partType", gift.partType);
-		// console.log("gift:???:", gift);
-        //gift.body.velocity.x = this.claw_speed * 20;
+		// console.log("📦 掉落順序：", this.dollSpawnCount + "/6");
+		console.log("📋 已掉落部位：", this.droppedParts);
 	},
 	closeClaw : function(isClose) {
 		this.claw.body.clearShapes();
@@ -257,18 +311,34 @@ BasicGame.Game.prototype = {
 				this.sfx_win.play();
 				console.log("gift.frameName:", gift.frameName);
 				let inventory = JSON.parse(localStorage.getItem('myDolls') || '[]');
-				inventory.push({
-					img: gift.frameName,
-					type: gift.partType,
-					time: Date.now()
-				  });
-				localStorage.setItem('myDolls', JSON.stringify(inventory));
-
-				// 當抓到 3 個娃娃時自動儲存到後端
-				if (inventory.length >= 1) {
-					this.autoSaveInventory(inventory);
-					console.log(`🎉 已抓到 ${inventory.length} 個娃娃，自動儲存到後端！`);
+				
+				// 檢查是否已經有這個部位的娃娃
+				const hasPartType = inventory.some(item => item.type === gift.partType);
+				
+				if (!hasPartType) {
+					// 如果沒有這個部位，才加入 inventory
+					inventory.push({
+						img: gift.frameName,
+						type: gift.partType,
+						time: Date.now()
+					});
+					localStorage.setItem('myDolls', JSON.stringify(inventory));
 					
+					console.log(`🎁 收集到新的 ${gift.partType} 部位！`);
+					
+					// 檢查是否收集到完整套裝（head、body、feet 各一個）
+					const hasHead = inventory.some(item => item.type === 'head');
+					const hasBody = inventory.some(item => item.type === 'body');
+					const hasFoot = inventory.some(item => item.type === 'foot');
+					
+					if (hasHead && hasBody && hasFoot) {
+						this.autoSaveInventory(inventory);
+						console.log(`🎉 收集到完整套裝！自動儲存到後端！`);
+					} else {
+						console.log(`📦 目前進度：${inventory.length}/3 個部位`);
+					}
+				} else {
+					console.log(`⚠️ 已經有 ${gift.partType} 部位了，跳過重複收集`);
 				}
 
 				console.log("inventory:", inventory);
