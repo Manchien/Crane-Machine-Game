@@ -163,12 +163,13 @@ BasicGame.Game.prototype = {
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
 		this.game.physics.p2.gravity.y = 1500;
 		this.game.physics.p2.setImpactEvents(true);
-		this.score_text = this.game.add.text(this.game.world.centerX, this.game.world.centerY, " 分数 : " + this.score, {
-            font: "65px Arial",
+		this.score_text = this.game.add.text(this.game.world.width - 20, 750, "金幣: " + this.coin + "\n分數: " + this.score, {
+            font: "24px Arial",
             fill: "#ff0044",
-            align: "center"
+            align: "right"
         });
-        this.score_text.anchor.setTo(0.5, 0.5);
+        this.score_text.anchor.setTo(1, 0); // 右上角對齊
+        this.score_text.bringToTop(); // 確保文字顯示在最上層
 		
 		this.giftCollisionGroup = this.game.physics.p2.createCollisionGroup();
         this.clawCollisionGroup = this.game.physics.p2.createCollisionGroup();
@@ -239,6 +240,7 @@ BasicGame.Game.prototype = {
 	},
     updateUI:function(){
         this.score_text.setText("coin:" + this.coin + "\nscore:" + this.score);
+        this.score_text.bringToTop(); // 確保文字始終顯示在最上層
 	},
     actionOnClick:function(){
 
