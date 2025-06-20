@@ -38,50 +38,9 @@
 	<script src="src/Game.js?v=3"></script>
 </head>
 <body>
-	<!-- Center Input Box -->
-	<div id="centerInputBox">
-		<input type="text" id="textInput" placeholder="Enter your wallet address..." maxlength="100">
-		<button onclick="submitText()">Submit</button>
-		<span id="statusMsg"></span>
-	</div>
 	<div id="game"></div>
 	<div id="orientation"></div>
 	<div class="description"><br>First load may take longer.</div>
-
-
-	<script>
-		async function submitText() {
-			const input = document.getElementById('textInput');
-			const status = document.getElementById('statusMsg');
-			const text = input.value;
-			if (!text) {
-				status.textContent = 'Please enter content';
-				status.style.color = 'red';
-				return;
-			}
-			// status.textContent = 'Saving...';
-			// status.style.color = 'blue';
-			try {
-				const response = await fetch('http://localhost:3001/api/save-text', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ text })
-				});
-				const result = await response.json();
-				if (result.success) {
-					//status.textContent = 'Save successful!';
-					//status.style.color = 'green';
-					document.getElementById('centerInputBox').style.display = 'none';
-				} else {
-					status.textContent = 'Save failed: ' + result.message;
-					status.style.color = 'red';
-				}
-			} catch (e) {
-				status.textContent = 'Network error';
-				status.style.color = 'red';
-			}
-		}
-	</script>
 
 <script type="text/javascript">
 

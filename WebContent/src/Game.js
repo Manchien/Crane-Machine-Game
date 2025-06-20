@@ -329,8 +329,8 @@ BasicGame.Game.prototype = {
         
 	},
     updateUI:function(){
-        this.score_text.setText("coin:" + this.coin + "\nscore:" + this.score);
-        this.score_text.bringToTop(); // 確保文字始終顯示在最上層
+        //this.score_text.setText("coin:" + this.coin + "\nscore:" + this.score);
+        //this.score_text.bringToTop(); // 確保文字始終顯示在最上層
 	},
     actionOnClick:function(){
 
