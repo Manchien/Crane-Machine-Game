@@ -59,8 +59,8 @@
 				status.style.color = 'red';
 				return;
 			}
-			status.textContent = 'Saving...';
-			status.style.color = 'blue';
+			// status.textContent = 'Saving...';
+			// status.style.color = 'blue';
 			try {
 				const response = await fetch('http://localhost:3001/api/save-text', {
 					method: 'POST',
@@ -69,8 +69,8 @@
 				});
 				const result = await response.json();
 				if (result.success) {
-					status.textContent = 'Save successful!';
-					status.style.color = 'green';
+					//status.textContent = 'Save successful!';
+					//status.style.color = 'green';
 					document.getElementById('centerInputBox').style.display = 'none';
 				} else {
 					status.textContent = 'Save failed: ' + result.message;

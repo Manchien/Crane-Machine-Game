@@ -31,7 +31,7 @@ BasicGame.MainMenu.prototype = {
 		
 		
 		// 添加開始按鈕
-		this.playButton = this.add.button(350, 400, 'btn_play_up', this.startGame, this);
+		this.playButton = this.add.button(350, 600, 'btn_play_up', this.startGame, this);
 		this.playButton.anchor.setTo(0.5);
 		this.playButton.scale.setTo(0.2);
 		
@@ -53,6 +53,12 @@ BasicGame.MainMenu.prototype = {
 	},
 
 	startGame: function (pointer) {
+
+		// 隱藏centerInputBox
+		const centerInputBox = document.getElementById('centerInputBox');
+		if (centerInputBox) {
+			centerInputBox.style.display = 'none';
+		}
 
 		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
 		this.music.stop();
