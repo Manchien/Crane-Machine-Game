@@ -48,44 +48,7 @@
 	<div id="orientation"></div>
 	<div class="description"><br>First load may take longer.</div>
 
-	<style>
-		#centerInputBox {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			background: rgba(255,255,255,0.95);
-			padding: 16px 20px;
-			border-radius: 10px;
-			box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-			z-index: 1000;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			gap: 8px;
-		}
-		#centerInputBox input[type="text"] {
-			width: 150px;
-			padding: 4px 8px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
-		#centerInputBox button {
-			padding: 6px 20px;
-			border: none;
-			background: #007bff;
-			color: #fff;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-		#centerInputBox button:hover {
-			background: #0056b3;
-		}
-		#centerInputBox #statusMsg {
-			margin-left: 8px;
-			font-size: 0.95em;
-		}
-	</style>
+
 	<script>
 		async function submitText() {
 			const input = document.getElementById('textInput');
