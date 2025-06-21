@@ -28,7 +28,6 @@ First, clone this repository to your computer using Git.
 
 ```bash
 git clone <https://github.com/HexPang/Crane-Machine-Game.git>
-cd temp-crane-game
 ```
 
 ### Step 2: Configure Environment Variables
