@@ -53,14 +53,37 @@ BasicGame.Preloader.prototype = {
         this.load.image('sprite_01b', 'assets/sprites/01/01b.png');
         this.load.image('sprite_02b', 'assets/sprites/01/02b.png');
         this.load.image('sprite_03b', 'assets/sprites/01/03b.png');
+		this.load.image('sprite_04b', 'assets/sprites/01/04b.png');
+        this.load.image('sprite_05b', 'assets/sprites/01/05b.png');
+        this.load.image('sprite_06b', 'assets/sprites/01/06b.png');
+		this.load.image('sprite_07b', 'assets/sprites/01/07b.png');
+		this.load.image('sprite_08b', 'assets/sprites/01/08b.png');
+		// this.load.image('sprite_09b', 'assets/sprites/01/09b.png');
+		// this.load.image('sprite_10b', 'assets/sprites/01/10b.png');
+		// this.load.image('sprite_11b', 'assets/sprites/01/11b.png');
+		// this.load.image('sprite_12b', 'assets/sprites/01/12b.png');
         // 載入頭部部位的圖片
         this.load.image('sprite_01h', 'assets/sprites/01/01h.png');
         this.load.image('sprite_02h', 'assets/sprites/01/02h.png');
         this.load.image('sprite_03h', 'assets/sprites/01/03h.png');
+		this.load.image('sprite_04h', 'assets/sprites/01/04h.png');
+		this.load.image('sprite_05h', 'assets/sprites/01/05h.png');
+		this.load.image('sprite_06h', 'assets/sprites/01/06h.png');
+		this.load.image('sprite_07h', 'assets/sprites/01/07h.png');
+		this.load.image('sprite_08h', 'assets/sprites/01/08h.png');
+		// this.load.image('sprite_09h', 'assets/sprites/01/09h.png');
+		// this.load.image('sprite_10h', 'assets/sprites/01/10h.png');
         // 載入腳部部位的圖片
         this.load.image('sprite_01f', 'assets/sprites/01/01f.png');
         this.load.image('sprite_02f', 'assets/sprites/01/02f.png');
         this.load.image('sprite_03f', 'assets/sprites/01/03f.png');
+		this.load.image('sprite_04f', 'assets/sprites/01/04f.png');
+		this.load.image('sprite_05f', 'assets/sprites/01/05f.png');
+		this.load.image('sprite_06f', 'assets/sprites/01/06f.png');
+		this.load.image('sprite_07f', 'assets/sprites/01/07f.png');
+		this.load.image('sprite_08f', 'assets/sprites/01/08f.png');
+		// this.load.image('sprite_09f', 'assets/sprites/01/09f.png');
+		// this.load.image('sprite_10f', 'assets/sprites/01/10f.png');
 
 		// 如果你想使用自定義圖片，可以這樣載入：
 		// this.load.image('custom_head_1', 'assets/custom/head1.png');

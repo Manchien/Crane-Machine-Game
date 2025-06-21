@@ -145,16 +145,16 @@ BasicGame.Game.prototype = {
 		// 根據部位類型選擇對應的圖片
 		var spriteKey;
 		if (partType === 'head') {
-			// 頭部：01h, 02h, 03h
-			var headIndex = Math.floor(Math.random() * 3) + 1;
+			// 頭部：01h, 02h, 03h, 04h, 05h, 06h, 07h, 08h
+			var headIndex = Math.floor(Math.random() * 8) + 1;
 			spriteKey = 'sprite_0' + headIndex + 'h';
 		} else if (partType === 'body') {
-			// 身體：01b, 02b, 03b
-			var bodyIndex = Math.floor(Math.random() * 3) + 1;
+			// 身體：01b, 02b, 03b, 04b, 05b, 06b, 07b, 08b
+			var bodyIndex = Math.floor(Math.random() * 8) + 1;
 			spriteKey = 'sprite_0' + bodyIndex + 'b';
 		} else if (partType === 'foot') {
-			// 腳部：01f, 02f, 03f
-			var footIndex = Math.floor(Math.random() * 3) + 1;
+			// 腳部：01f, 02f, 03f, 04f, 05f, 06f, 07f, 08f
+			var footIndex = Math.floor(Math.random() * 8) + 1;
 			spriteKey = 'sprite_0' + footIndex + 'f';
 		}
 		
@@ -162,7 +162,7 @@ BasicGame.Game.prototype = {
 		console.log("🎯 部位類型:", partType);
 		
         var gift = this.gifts.create(this.game.world.centerX + Math.random() * 100 * 1.5, 0, spriteKey);
-		gift.scale.setTo(0.17); // 將娃娃放大到原來的2倍
+		gift.scale.setTo(0.85);
 		gift.body.debug = false;
         gift.body.clearShapes();
         // 使用簡單的矩形碰撞體，因為不再有精靈圖集的物理資料
@@ -305,7 +305,19 @@ BasicGame.Game.prototype = {
 		console.log("sprite_03h:", this.game.cache.checkImageKey('sprite_03h'));
 		console.log("sprite_03b:", this.game.cache.checkImageKey('sprite_03b'));
 		console.log("sprite_03f:", this.game.cache.checkImageKey('sprite_03f'));
-
+		console.log("sprite_04h:", this.game.cache.checkImageKey('sprite_04h'));
+		console.log("sprite_04b:", this.game.cache.checkImageKey('sprite_04b'));
+		console.log("sprite_04f:", this.game.cache.checkImageKey('sprite_04f'));
+		console.log("sprite_05h:", this.game.cache.checkImageKey('sprite_05h'));
+		console.log("sprite_05b:", this.game.cache.checkImageKey('sprite_05b'));
+		console.log("sprite_05f:", this.game.cache.checkImageKey('sprite_05f'));
+		console.log("sprite_06h:", this.game.cache.checkImageKey('sprite_06h'));
+		console.log("sprite_06b:", this.game.cache.checkImageKey('sprite_06b'));
+		console.log("sprite_06f:", this.game.cache.checkImageKey('sprite_06f'));
+		console.log("sprite_07h:", this.game.cache.checkImageKey('sprite_07h'));
+		console.log("sprite_07b:", this.game.cache.checkImageKey('sprite_07b'));
+		console.log("sprite_07f:", this.game.cache.checkImageKey('sprite_07f'));
+		console.log("sprite_08h:", this.game.cache.checkImageKey('sprite_08h'));
         
 	},
     updateUI:function(){
