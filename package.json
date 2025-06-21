@@ -2,6 +2,7 @@
   "name": "crane-game-nft",
   "version": "1.0.0",
   "description": "Crane Game with NFT Integration",
+  "homepage": "https://Manchien.github.io/Crane-Machine-Game",
   "main": "server.js",
   "scripts": {
     "compile": "hardhat compile",
@@ -22,7 +23,8 @@
     "node": "hardhat node",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "game": "node server.js"
+    "game": "node server.js",
+    "webdeploy": "gh-pages -d WebContent"
   },
   "keywords": [
     "game",
@@ -34,6 +36,7 @@
   "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "gh-pages": "^6.3.0",
     "hardhat": "^2.19.0",
     "nodemon": "^3.0.1"
   },

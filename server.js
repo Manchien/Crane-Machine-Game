@@ -196,6 +196,39 @@ app.get('/api/get-latest-inventory', (req, res) => {
     }
 });
 
+// API 端點，用于處理NFT鑄造請求
+app.post('/mint', (req, res) => {
+    // 从游戏客户端接收钱包地址
+    const { recipientAddress } = req.body;
+
+    if (!recipientAddress) {
+        return res.status(400).json({ error: 'Missing recipientAddress' });
+    }
+    
+    // 在这里，我们假设组合好的娃娃图片已经存在，或者您可以先运行组合脚本
+    // 为简单起见，我们直接指定一个要铸造的图片
+    const imageToMint = "WebContent/assets/sprites/01.png"; // 您可以动态决定这张图片
+
+    console.log(`收到铸造请求:
+      接收地址: ${recipientAddress}
+      铸造图片: ${imageToMint}`);
+
+    // 使用您的 upload-and-mint.js 脚本
+    const command = `node scripts/upload-and-mint.js "${imageToMint}"`;
+    
+    // 注意：您需要修改 upload-and-mint.js 来从 .env 文件读取 RECIPIENT_ADDRESS
+    // 或者直接将地址作为参数传递（如果脚本支持）
+
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`执行脚本出错: ${error.message}`);
+            return res.status(500).json({ error: 'Failed to execute minting script.', details: stderr });
+        }
+        console.log(`脚本输出: ${stdout}`);
+        res.status(200).json({ success: true, message: 'NFT Minting process started!', output: stdout });
+    });
+});
+
 // 啟動伺服器
 app.listen(PORT, () => {
     console.log(`🚀 後端伺服器運行在 http://localhost:${PORT}`);
@@ -205,6 +238,7 @@ app.listen(PORT, () => {
     console.log(`   GET  /api/get-latest-inventory - 取得最新 inventory`);
     console.log(`   POST /api/save-text - 儲存文字`);
     console.log(`   POST /api/generate-combined-image - 生成 combined.png`);
+    console.log(`   POST /mint - 處理NFT鑄造請求`);
 });
 
 module.exports = app; 
