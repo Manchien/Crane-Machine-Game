@@ -22,8 +22,8 @@ BasicGame.MainMenu.prototype = {
 
 		// 添加遊戲標題文字
 		this.titleText = this.add.text(350, 200, 'Claw Machine Game', {
-			font: 'bold 48px Arial',
-			fill: '#5599FF',
+			font: 'bold 38px "Press Start 2P", "Courier New", monospace',
+			fill: '#FFBB00',
 			stroke: '#000000',
 			strokeThickness: 4
 		});
