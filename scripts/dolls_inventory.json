@@ -1,17 +1,17 @@
 [
   {
-    "img": "assets/sprites/01/02b.png",
-    "type": "body",
-    "time": 1750497543774
-  },
-  {
-    "img": "assets/sprites/01/05f.png",
-    "type": "foot",
-    "time": 1750497544712
-  },
-  {
     "img": "assets/sprites/01/07h.png",
     "type": "head",
-    "time": 1750497547344
+    "time": 1750498230568
+  },
+  {
+    "img": "assets/sprites/01/04b.png",
+    "type": "body",
+    "time": 1750498238783
+  },
+  {
+    "img": "assets/sprites/01/02f.png",
+    "type": "foot",
+    "time": 1750498317346
   }
 ]
