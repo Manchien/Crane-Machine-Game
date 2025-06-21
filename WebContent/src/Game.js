@@ -39,7 +39,6 @@ BasicGame.Game.prototype = {
 	layer : null,
 	sfx_win : null,
 	sfx_lose : null,
-	sfx_claw : [],
     giftCollisionGroup:null,
     clawCollisionGroup:null,
     tilesCollisionGroup:null,
@@ -59,16 +58,6 @@ BasicGame.Game.prototype = {
             this.spawnDoll();
         }
     },
-	claw_sfx : function(index) {
-		for ( var i in this.sfx_claw) {
-			var sfx = this.sfx_claw[i];
-			if (i == index) {
-				sfx.loopFull();
-			} else {
-				sfx.stop();
-			}
-		}
-	},
 	// 修改點擊函數為鍵盤控制
 	keyboardControl : function() {
 		// 左右方向鍵控制夾子移動
@@ -87,7 +76,6 @@ BasicGame.Game.prototype = {
 			if (this.spaceKey.isDown && this.coin > 0) {
 				this.coin--;
 				this.claw_state = 2; // 直接進入向下抓取狀態
-				this.claw_sfx(1);
 			}
 		}
 	},
@@ -255,9 +243,6 @@ BasicGame.Game.prototype = {
 		var x = 350;
 		var y = 350;
 		
-		this.sfx_claw[0] = this.game.add.audio('sfx_claw_0');
-		this.sfx_claw[1] = this.game.add.audio('sfx_claw_1');
-		this.sfx_claw[2] = this.game.add.audio('sfx_claw_2');
 		map.addTilesetImage('world');
 		this.sfx_lose = this.game.add.audio('lose');
 		this.sfx_win = this.game.add.audio('win');
@@ -387,7 +372,6 @@ BasicGame.Game.prototype = {
 			if (this.claw.body.y >= this.claw_length) {
 				this.closeClaw(true);
 				this.claw_state = 3;
-				this.claw_sfx(2);
 			}
 		} else if (this.claw_state == 3) {
 			this.claw.body.y -= this.claw_speed;
@@ -411,7 +395,6 @@ BasicGame.Game.prototype = {
 				}else{
                     this.claw.body.x = this.zero_point[0];
                     this.claw_state = 0;
-                    this.claw_sfx(-1);
                     this.closeClaw(false);
                     if (this.hitGift) {
                         this.hitGift.static = false;

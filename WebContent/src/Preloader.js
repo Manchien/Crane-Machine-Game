@@ -71,10 +71,6 @@ BasicGame.Preloader.prototype = {
 		this.load.audio('lose','assets/audio/oops.wav');
 		// this.load.audio('bgm','assets/audio/7874.wav'); // 移除背景音樂載入
 		
-		this.load.audio('sfx_claw_0','assets/audio/claw_0.m4a');
-		this.load.audio('sfx_claw_1','assets/audio/claw_1.m4a');
-		this.load.audio('sfx_claw_2','assets/audio/claw_2.m4a');
-		
 		// 加載開始按鈕圖片
 		this.load.image('btn_play_up','assets/button/btn_play_up.png');
 	},
