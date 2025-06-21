@@ -50,6 +50,8 @@ Here's what each variable in the `.env` file does:
 -   `PINATA_API_KEY` & `PINATA_SECRET_API_KEY`: **(Required)** Your API keys from [Pinata.cloud](https://app.pinata.cloud/). Pinata is used to store your NFT images and metadata on the decentralized IPFS network.
 -   `CONTRACT_ADDRESS`: Leave this empty for now. You'll fill this in after you deploy the smart contract in the next step.
 -   `RECIPIENT_ADDRESS`: Your public wallet address (e.g., `0x...`). This is where your minted NFTs will be sent.
+-   `USE_IPFS`: **(Optional)** A flag to control uploads to IPFS. Set to `true` to automatically upload NFT media to the decentralized IPFS network via Pinata.
+-   `MUMBAI_RPC_URL`: **(Optional)** The RPC URL for the Polygon Mumbai testnet. This is for legacy support, as the project now primarily uses the **Amoy** testnet. You can leave this blank.
 
 ### Step 4: Get Test Tokens (Amoy Testnet)
 
@@ -86,9 +88,8 @@ Now you're ready to play. Run the local web server with this command:
 node server.js
 ```
 
-The game will be running at `http://localhost:8080/WebContent/`. Open this URL in your browser.
+The game will be running at `http://localhost:3001`. Open this URL in your browser.
 
-*(Note: The user mentioned port 3001, but the current server is configured for 8080. Please use the URL above.)*
 
 ---
 
