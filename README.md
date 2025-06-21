@@ -1,265 +1,91 @@
-# 🎮 Crane Game NFT - Polygon Amoy
+# Crane Game NFT: Play, Assemble, and Mint!
 
-This project allows you to deploy and mint NFTs for your crane game on the Polygon Amoy testnet with automated Pinata IPFS uploads.
+Welcome to the Crane Game NFT project! This is a fun, interactive web game where your in-game achievements become real assets on the blockchain. Play the classic crane game to catch different doll parts, and once you collect a full set (head, body, and feet), you can assemble them into a unique NFT that gets minted directly to your wallet.
 
-## 🚀 Quick Start
+This project is built with **Phaser** for the game engine and **Hardhat** for smart contract management on the **Polygon Amoy testnet**.
 
-### Prerequisites
+---
 
-1. **Node.js** (v16 or higher)
-2. **MetaMask** wallet with Polygon Amoy testnet configured
-3. **Test MATIC** tokens for gas fees
-4. **Pinata Account** for IPFS uploads
+## How to Get Started
 
-### Setup
+Follow these steps to get the project running on your local machine.
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### Step 1: Clone the Project
 
-2. **Configure environment:**
-   ```bash
-   cp env.example .env
-   ```
-   
-   Edit `.env` and add your credentials:
-   ```
-   PRIVATE_KEY=your_private_key_here
-   MUMBAI_RPC_URL = your_MUMBAI_RPC_URL
-   AMOY_RPC_URL=https://rpc-amoy.polygon.technology
-   PINATA_API_KEY=your_pinata_api_key_here
-   PINATA_SECRET_API_KEY=your_pinata_secret_api_key_here
-   CONTRACT_ADDRESS=your_deployed_contract_address
-   RECIPIENT_ADDRESS=your_recipient_address
-   USE_IPFS=true
-   ```
+First, clone this repository to your computer using Git.
 
-3. **Get Pinata API Keys:**
-   - Visit [Pinata](https://app.pinata.cloud/)
-   - Create an account and get your API keys
-   - Add them to your `.env` file
-
-4. **Get test MATIC:**
-   - Visit [Polygon Faucet](https://faucet.polygon.technology/)
-   - Select "Amoy" testnet
-   - Enter your wallet address
-   - Receive test MATIC tokens
-
-
-
-### 🏗️ Deploy Contract
-
-1. **Compile the contract:**
-   ```bash
-   npm run compile
-   ```
-
-2. **Deploy to Amoy testnet:**
-   ```bash
-   npm run deploy
-   ```
-
-3. **Save the contract address** from the deployment output
-4. **Update your `.env` file** with the contract address
-
-### 🎨 Automated NFT Upload & Mint
-
-#### Option 1: Upload to Pinata Only
 ```bash
-npm run upload
+git clone <https://github.com/HexPang/Crane-Machine-Game.git>
+cd temp-crane-game
 ```
-This will upload your image and metadata to Pinata IPFS.
 
-#### Option 2: Upload and Mint Automatically
+### Step 2: Configure Environment Variables
+
+You need to set up your environment variables to connect to the blockchain and other services. Start by copying the example file:
+
 ```bash
-npm run upload-and-mint
-```
-This will:
-1. Upload your image to Pinata IPFS
-2. Create metadata with IPFS links
-3. Upload metadata to Pinata IPFS
-4. Mint the NFT on Polygon Amoy testnet
-
-### 📁 Project Structure
-
-```
-├── contracts/
-│   └── GameNFT.sol          # NFT smart contract
-├── scripts/
-│   ├── deploy.js            # Contract deployment script
-│   ├── mint.js              # Manual NFT minting script
-│   ├── upload-to-pinata.js  # Pinata upload automation
-│   └── upload-and-mint.js   # Combined upload & mint
-├── assets/
-│   └── nfttest.png          # Your NFT images
-├── metadata/
-│   └── 1.json               # Sample metadata
-├── hardhat.config.js        # Hardhat configuration
-├── package.json             # Dependencies
-└── README.md               # This file
+cp .env.example .env
 ```
 
-## 🔧 Configuration
+Now, open the `.env` file and fill in the following values.
+
+### Step 3: Understanding the Environment Variables
+
+Here's what each variable in the `.env` file does:
+
+-   `PRIVATE_KEY`: **(Required & Secret)** Your wallet's private key. This is needed to deploy the contract and pay for transactions. **Never share this or commit it to a public repository!**
+-   `AMOY_RPC_URL`: **(Required)** The URL for connecting to the Polygon Amoy testnet. A default public one is provided.
+-   `PINATA_API_KEY` & `PINATA_SECRET_API_KEY`: **(Required)** Your API keys from [Pinata.cloud](https://app.pinata.cloud/). Pinata is used to store your NFT images and metadata on the decentralized IPFS network.
+-   `CONTRACT_ADDRESS`: Leave this empty for now. You'll fill this in after you deploy the smart contract in the next step.
+-   `RECIPIENT_ADDRESS`: Your public wallet address (e.g., `0x...`). This is where your minted NFTs will be sent.
+
+### Step 4: Get Test Tokens (Amoy Testnet)
 
 ### Polygon Amoy Testnet
+To deploy contracts and make transactions on a blockchain, you need cryptocurrency to pay for "gas" fees. On a testnet, this currency is free.
 
 - **Network Name:** Polygon Amoy Testnet
 - **RPC URL:** https://rpc-amoy.polygon.technology
 - **Chain ID:** 80002
 - **Currency Symbol:** MATIC
 - **Block Explorer:** https://www.oklink.com/amoy
+This project uses the **Polygon Amoy** testnet. You can get free test MATIC from a public faucet:
+-   **Go to [Polygon Faucet](https://faucet.polygon.technology/)**
+-   Select the **Amoy** network, enter your wallet address, and receive your test tokens.
 
-### Pinata Setup
+### Step 5: Deploy the NFT Smart Contract
 
-1. **Get API Keys:**
-   - Go to [Pinata Dashboard](https://app.pinata.cloud/)
-   - Navigate to API Keys
-   - Create a new API key
-   - Copy the API Key and Secret Key
+The core of the NFT functionality lies in the `contracts/GameNFT.sol` smart contract. This is an **ERC-721 contract** responsible for creating (minting), tracking, and transferring the unique ownership of each doll NFT.
 
-2. **Add to .env:**
-   ```
-   PINATA_API_KEY=your_api_key_here
-   PINATA_SECRET_API_KEY=your_secret_key_here
-   ```
+1.  **Run the deployment script**:
+    Execute the following command in your terminal. This will compile the contract and deploy it to the Amoy testnet.
+    ```bash
+    npx hardhat run scripts/deploy.js --network amoy
+    ```
 
-### MetaMask Setup
+2.  **Update your `.env` file**:
+    After the script finishes, it will print the newly deployed **contract address**. Copy this address and paste it into the `CONTRACT_ADDRESS` field in your `.env` file.
 
-1. Open MetaMask
-2. Go to Settings → Networks → Add Network
-3. Add the following details:
-   - Network Name: Polygon Amoy
-   - RPC URL: https://rpc-amoy.polygon.technology
-   - Chain ID: 80002
-   - Currency Symbol: MATIC
-   - Block Explorer: https://www.oklink.com/amoy
+### Step 6: Start the Game!
 
-## 🎯 Smart Contract Features
+Now you're ready to play. Run the local web server with this command:
 
-- **ERC-721 Standard:** Full NFT compatibility
-- **Metadata Support:** IPFS and HTTP URI support
-- **Batch Minting:** Mint multiple NFTs at once
-- **Owner Controls:** Only owner can mint new NFTs
-- **Token URI Storage:** Flexible metadata management
-
-## 🤖 Automation Features
-
-### Pinata Integration
-- **Automatic Image Upload:** Upload PNG/JPG files to IPFS
-- **Metadata Generation:** Create JSON metadata with attributes
-- **Batch Processing:** Upload multiple NFTs at once
-- **Rate Limiting:** Built-in delays to avoid API limits
-
-### Workflow Automation
-1. **Single NFT:** Upload image → Generate metadata → Mint on blockchain
-2. **Batch NFTs:** Process multiple images automatically
-3. **Error Handling:** Robust error handling and retry logic
-
-## 📝 Metadata Format
-
-Your metadata is automatically generated with this structure:
-
-```json
-{
-  "name": "Crane Game NFT #1",
-  "description": "A rare collectible from the legendary Crane Game...",
-  "image": "https://gateway.pinata.cloud/ipfs/QmYourImageHash",
-  "external_url": "https://your-game-website.com",
-  "attributes": [
-    {
-      "trait_type": "Rarity",
-      "value": "Common"
-    },
-    {
-      "trait_type": "Game Score",
-      "value": "1500"
-    }
-  ]
-}
-```
-
-## 🚀 Usage Examples
-
-### Upload Single NFT
 ```bash
-# Place your image in assets/nfttest.png
-npm run upload-and-mint
+node server.js
 ```
 
-### Upload Multiple NFTs
-Edit `scripts/upload-and-mint.js` and uncomment the batch section:
-```javascript
-const imagePaths = [
-    path.join(__dirname, '..', 'assets', 'nfttest.png'),
-    path.join(__dirname, '..', 'assets', 'nfttest2.png'),
-    path.join(__dirname, '..', 'assets', 'nfttest3.png')
-];
-await batchUploadAndMint(imagePaths, RECIPIENT_ADDRESS, CONTRACT_ADDRESS, 1);
-```
+The game will be running at `http://localhost:8080/WebContent/`. Open this URL in your browser.
 
-### Custom Attributes
-You can pass custom attributes when uploading:
-```javascript
-const attributes = {
-    rarity: "Rare",
-    score: "2000",
-    difficulty: "Hard"
-};
-await uploadAndMint(imagePath, 1, recipientAddress, contractAddress, attributes);
-```
+*(Note: The user mentioned port 3001, but the current server is configured for 8080. Please use the URL above.)*
 
-## 🔗 Useful Links
+---
 
-- [Polygon Amoy Documentation](https://wiki.polygon.technology/docs/zkEVM/develop/amoy/)
-- [Polygon Faucet](https://faucet.polygon.technology/)
-- [Amoy Explorer](https://www.oklink.com/amoy)
-- [Pinata Documentation](https://docs.pinata.cloud/)
-- [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts/)
+## Gameplay: From Parts to NFT
 
-## 🛠️ Troubleshooting
+Here's how to earn your first NFT:
 
-### Common Issues
+1.  **Enter Your Wallet Address**: When the game loads, it will prompt you for your public wallet address. This ensures the NFT is sent to you.
+2.  **Catch the Three Parts**: Play the game and skillfully maneuver the crane to catch one of each of the three doll parts: a **head**, a **body**, and **feet**.
+3.  **NFT Assembled and Minted!**: Once you have collected a full set, the game will automatically assemble the parts into a complete doll, upload it to IPFS, and mint it as a brand new NFT. It will then be transferred to the wallet address you provided at the start. Congratulations on your new NFT!
 
-1. **Pinata Authentication Failed:**
-   - Check your API keys in `.env`
-   - Verify your Pinata account is active
-
-2. **Image Not Found:**
-   - Ensure your image is in `assets/nfttest.png`
-   - Check file permissions
-
-3. **Insufficient Gas:**
-   - Make sure you have enough test MATIC
-   - Get more from the faucet
-
-4. **Contract Not Deployed:**
-   - Run `npm run deploy` first
-   - Update `CONTRACT_ADDRESS` in `.env`
-
-### Getting Help
-
-- Check the [Polygon Discord](https://discord.gg/polygon)
-- Review [Pinata documentation](https://docs.pinata.cloud/)
-- Check transaction status on [Amoy Explorer](https://www.oklink.com/amoy)
-
-## 📄 License
-
-MIT License - see LICENSE file for details.
-
-## 夹娃娃小游戏
-
-### 使用框架：Phaser
-
-### 地图工具：Tiled
-
-前些天看到新闻说微信上出了个夹娃娃的游戏涉嫌传销被封禁，突然想试着学习下H5游戏开发，于是就有了这个。（请原谅我的审美观）
-
-该项目中使用的是Phaser的P2物理引擎
-
-### 演示：[点击此处](https://hexpang.github.io/Crane-Machine-Game/WebContent)
-
-### 截图
-
-![截图1](Design/screenshot01.png)
 

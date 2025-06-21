@@ -99,17 +99,17 @@ BasicGame.Game.prototype = {
 		if (this.dollSpawnCount <= 3) {
 			if (this.dollSpawnCount === 1 && !this.droppedParts.head) {
 				// 第 1 個：確保有 head
-				index = Math.floor(Math.random() * 8) + 1; // 1, 2, 3 -> 01h, 02h, 03h
+				index = Math.floor(Math.random() * 8) + 1; 
 				partType = 'head';
 				this.droppedParts.head = true;
 			} else if (this.dollSpawnCount === 2 && !this.droppedParts.body) {
 				// 第 2 個：確保有 body
-				index = Math.floor(Math.random() * 8) + 1; // 4, 5, 6 -> 01b, 02b, 03b
+				index = Math.floor(Math.random() * 8) + 1; 
 				partType = 'body';
 				this.droppedParts.body = true;
 			} else if (this.dollSpawnCount === 3 && !this.droppedParts.foot) {
 				// 第 3 個：確保有 foot
-				index = Math.floor(Math.random() * 8) + 1; // 7, 8, 9 -> 01f, 02f, 03f
+				index = Math.floor(Math.random() * 8) + 1; 
 				partType = 'foot';
 				this.droppedParts.foot = true;
 			} else {
@@ -121,15 +121,15 @@ BasicGame.Game.prototype = {
 				
 				const randomPart = availableParts[Math.floor(Math.random() * availableParts.length)];
 				if (randomPart === 'head') {
-					index = Math.floor(Math.random() * 3) + 1;
+					index = Math.floor(Math.random() * 8) + 1;
 					partType = 'head';
 					this.droppedParts.head = true;
 				} else if (randomPart === 'body') {
-					index = Math.floor(Math.random() * 3) + 4;
+					index = Math.floor(Math.random() * 8) + 1;
 					partType = 'body';
 					this.droppedParts.body = true;
 				} else if (randomPart === 'foot') {
-					index = Math.floor(Math.random() * 3) + 7;
+					index = Math.floor(Math.random() * 8) + 1;
 					partType = 'foot';
 					this.droppedParts.foot = true;
 				}
