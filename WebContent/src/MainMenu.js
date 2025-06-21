@@ -14,8 +14,8 @@ BasicGame.MainMenu.prototype = {
 		//	Here all we're doing is playing some music and adding a picture and button
 		//	Naturally I expect you to do something significantly better :)
 
-		// 添加背景音樂
-		this.music = this.add.audio('bgm');
+		// 移除背景音樂
+		// this.music = this.add.audio('bgm');
 		//this.music.play();
 
 		// 添加標題背景
@@ -158,7 +158,7 @@ BasicGame.MainMenu.prototype = {
 		}
 
 		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
-		this.music.stop();
+		// this.music.stop();
 
 		//	And start the actual game
 		this.state.start('Game');

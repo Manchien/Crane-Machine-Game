@@ -2,16 +2,16 @@
   {
     "img": "assets/sprites/01/03f.png",
     "type": "foot",
-    "time": 1750463829439
+    "time": 1750480250279
+  },
+  {
+    "img": "assets/sprites/01/03h.png",
+    "type": "head",
+    "time": 1750480261133
   },
   {
     "img": "assets/sprites/01/02b.png",
     "type": "body",
-    "time": 1750463840343
-  },
-  {
-    "img": "assets/sprites/01/01h.png",
-    "type": "head",
-    "time": 1750463848190
+    "time": 1750480286146
   }
 ]

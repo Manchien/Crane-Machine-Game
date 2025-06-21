@@ -39,7 +39,6 @@ BasicGame.Game.prototype = {
 	layer : null,
 	sfx_win : null,
 	sfx_lose : null,
-	bgm : null,
 	sfx_claw : [],
     giftCollisionGroup:null,
     clawCollisionGroup:null,
@@ -256,10 +255,6 @@ BasicGame.Game.prototype = {
 		var x = 350;
 		var y = 350;
 		
-		
-		
-		this.bgm = this.game.add.audio('bgm');
-		this.bgm.loopFull();
 		this.sfx_claw[0] = this.game.add.audio('sfx_claw_0');
 		this.sfx_claw[1] = this.game.add.audio('sfx_claw_1');
 		this.sfx_claw[2] = this.game.add.audio('sfx_claw_2');
