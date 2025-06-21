@@ -29,7 +29,6 @@ BasicGame.MainMenu.prototype = {
 		});
 		this.titleText.anchor.setTo(0.5);
 		
-		
 		// 添加開始按鈕
 		this.playButton = this.add.button(350, 600, 'btn_play_up', this.startGame, this);
 		this.playButton.anchor.setTo(0.5);
@@ -80,21 +79,6 @@ BasicGame.MainMenu.prototype = {
 			font-size: 16px;
 		`;
 
-		// 創建提交按鈕
-		const submitButton = document.createElement('button');
-		submitButton.textContent = 'Submit';
-		submitButton.onclick = this.submitText.bind(this);
-		submitButton.style.cssText = `
-			padding: 10px 20px;
-			margin: 10px;
-			border: none;
-			border-radius: 5px;
-			background: #5599FF;
-			color: white;
-			font-size: 16px;
-			cursor: pointer;
-		`;
-
 		// 創建狀態訊息
 		const statusMsg = document.createElement('span');
 		statusMsg.id = 'statusMsg';
@@ -106,24 +90,25 @@ BasicGame.MainMenu.prototype = {
 
 		// 組裝元素
 		centerInputBox.appendChild(textInput);
-		centerInputBox.appendChild(submitButton);
 		centerInputBox.appendChild(statusMsg);
 
 		// 添加到頁面
 		document.body.appendChild(centerInputBox);
 	},
 
-	submitText: async function () {
+	startGame: async function (pointer) {
 		const input = document.getElementById('textInput');
 		const status = document.getElementById('statusMsg');
-		const text = input.value;
+		const text = input.value.trim();
 		
+		// 檢查是否有填寫錢包地址
 		if (!text) {
-			status.textContent = 'Please enter content';
+			status.textContent = 'Please enter wallet address';
 			status.style.color = 'red';
 			return;
 		}
 		
+		// 先保存錢包地址
 		try {
 			const response = await fetch('http://localhost:3001/api/save-text', {
 				method: 'POST',
@@ -132,7 +117,17 @@ BasicGame.MainMenu.prototype = {
 			});
 			const result = await response.json();
 			if (result.success) {
-				document.getElementById('centerInputBox').style.display = 'none';
+				// 隱藏centerInputBox
+				const centerInputBox = document.getElementById('centerInputBox');
+				if (centerInputBox) {
+					centerInputBox.style.display = 'none';
+				}
+
+				//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
+				// this.music.stop();
+
+				//	And start the actual game
+				this.state.start('Game');
 			} else {
 				status.textContent = 'Save failed: ' + result.message;
 				status.style.color = 'red';
@@ -146,22 +141,6 @@ BasicGame.MainMenu.prototype = {
 	update: function () {
 
 		//	Do some nice funky main menu effect here
-
-	},
-
-	startGame: function (pointer) {
-
-		// 隱藏centerInputBox
-		const centerInputBox = document.getElementById('centerInputBox');
-		if (centerInputBox) {
-			centerInputBox.style.display = 'none';
-		}
-
-		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
-		// this.music.stop();
-
-		//	And start the actual game
-		this.state.start('Game');
 
 	}
 
