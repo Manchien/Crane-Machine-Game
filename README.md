@@ -5,8 +5,20 @@ Welcome to the Crane Game NFT project! This is a fun, interactive web game where
 This project is built with **Phaser** for the game engine and **Hardhat** for smart contract management on the **Polygon Amoy testnet**.
 
 ---
+## 🎮 Play the Game!
 
-## How to Get Started
+You can play the game directly by clicking the link below.
+
+**[>> Click Here to Play Crane Game NFT <<](https://suitably-hot-gnat.ngrok-free.app/)**
+
+### Screenshots
+
+![Game Start](Design/screenshot02.jpg)
+![Play Start](Design/screenshot03.jpg)
+
+---
+
+## How to Get Started(local)
 
 Follow these steps to get the project running on your local machine.
 
