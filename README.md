@@ -100,4 +100,8 @@ Here's how to earn your first NFT:
 2.  **Catch the Three Parts**: Play the game and skillfully maneuver the crane to catch one of each of the three doll parts: a **head**, a **body**, and **feet**.
 3.  **NFT Assembled and Minted!**: Once you have collected a full set, the game will automatically assemble the parts into a complete doll, upload it to IPFS, and mint it as a brand new NFT. It will then be transferred to the wallet address you provided at the start. Congratulations on your new NFT!
 
+### Contact Us
 
+- **Melita**: [manchien1105@gmail.com](mailto:manchien1105@gmail.com)
+- **Julia**: [yunnn0028@gmail.com](mailto:yunnn0028@gmail.com)
+- **Sally**: [warmrnlin@gmail.com](mailto:warmrnlin@gmail.com)
