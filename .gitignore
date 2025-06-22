@@ -56,7 +56,8 @@ tmp/
 temp/
 
 # Generated or user-specific files
-assets/combined.png
-assets/userInput.txt
-scripts/dolls_inventory.json
-WebContent/assets/combined.png
+
+assets\combined.png
+assets\userInput.txt
+scripts\dolls_inventory.json
+WebContent\assets\combined.png
