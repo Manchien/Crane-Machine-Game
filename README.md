@@ -8,8 +8,7 @@ This project is built with **Phaser** for the game engine and **Hardhat** for sm
 ### 🎥 Demo Video
 
 Click the image below to watch a video demonstration of the game and the entire NFT minting process.
-
-[![Crane Game NFT Demo Video](https://img.youtube.com/vi/D91scOxYt7g/0.jpg)](https://youtu.be/D91scOxYt7g)
+**[>> Click Here to watch Crane Game NFT Demo Video <<](https://youtu.be/D91scOxYt7g/)**
 
 ### Screenshots
 
