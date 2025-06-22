@@ -5,11 +5,11 @@ Welcome to the Crane Game NFT project! This is a fun, interactive web game where
 This project is built with **Phaser** for the game engine and **Hardhat** for smart contract management on the **Polygon Amoy testnet**.
 
 ---
-## 🎮 Play the Game!
+### 🎥 Demo Video
 
-You can play the game directly by clicking the link below.
+Click the image below to watch a video demonstration of the game and the entire NFT minting process.
 
-**[>> Click Here to Play Crane Game NFT <<](https://suitably-hot-gnat.ngrok-free.app/)**
+[![Crane Game NFT Demo Video](https://img.youtube.com/vi/D91scOxYt7g/0.jpg)](https://youtu.be/D91scOxYt7g)
 
 ### Screenshots
 
@@ -99,6 +99,8 @@ Here's how to earn your first NFT:
 1.  **Enter Your Wallet Address**: When the game loads, it will prompt you for your public wallet address. This ensures the NFT is sent to you.
 2.  **Catch the Three Parts**: Play the game and skillfully maneuver the crane to catch one of each of the three doll parts: a **head**, a **body**, and **feet**.
 3.  **NFT Assembled and Minted!**: Once you have collected a full set, the game will automatically assemble the parts into a complete doll, upload it to IPFS, and mint it as a brand new NFT. It will then be transferred to the wallet address you provided at the start. Congratulations on your new NFT!
+
+
 
 ### Contact Us
 
