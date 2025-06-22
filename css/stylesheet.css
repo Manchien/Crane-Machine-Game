@@ -1,6 +1,10 @@
 body {
     margin: 0px 0px 1px 0px; /* the extra 1px allows the iOS inner/outer check to work */
-    background-image: url(../images/background.jpg);
+    background-image: url(../images/roles.gif), url(../images/roles.gif);
+    background-size: 35% auto, 35% auto;
+    background-color: #1a1a1a;
+    background-repeat: no-repeat, no-repeat;
+    background-position: left bottom, 111% bottom;
 }
 
 .title {
