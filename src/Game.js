@@ -451,7 +451,7 @@ BasicGame.Game.prototype = {
         window.location.href = 'end-screen.html?status=minting';
         
         // 在背景執行儲存操作
-        fetch('https://suitably-hot-gnat.ngrok-free.app/api/save-inventory', {
+        fetch('https://localhost:3001/api/save-inventory', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -464,7 +464,7 @@ BasicGame.Game.prototype = {
                 console.log('✅ Inventory 已自動儲存到後端:', data.filename);
                 
                 // 在跳轉到成功畫面之前，先生成新的 combined.png
-                fetch('https://suitably-hot-gnat.ngrok-free.app/api/generate-combined-image', {
+                fetch('https://localhost:3001/api/generate-combined-image', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

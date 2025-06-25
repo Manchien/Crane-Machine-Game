@@ -110,7 +110,7 @@ BasicGame.MainMenu.prototype = {
 		
 		// 先保存錢包地址
 		try {
-			const response = await fetch('https://suitably-hot-gnat.ngrok-free.app/api/save-text', {
+			const response = await fetch('https://localhost:3001/api/save-text', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ text })
